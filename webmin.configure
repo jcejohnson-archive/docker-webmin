@@ -1,0 +1,31 @@
+#!/bin/bash
+
+echo deb http://download.webmin.com/download/repository sarge contrib >> /etc/apt/sources.list || exit 100
+echo deb http://webmin.mirror.somersettechsolutions.co.uk/repository sarge contrib >> /etc/apt/sources.list || exit 100
+
+/bin/rm -f /etc/apt/apt.conf.d/docker-gzip-indexes
+
+/usr/bin/apt-get update && /usr/bin/apt-get -y install wget || exit 100
+
+(/usr/bin/wget -q http://www.webmin.com/jcameron-key.asc -O- | /usr/bin/apt-key add -) || exit 100
+
+/usr/bin/apt-get update && /usr/bin/apt-get -y --force-yes install webmin || exit 100
+
+/bin/cat >> /etc/webmin/config <<!
+webprefix=/webmin/
+webprefixnoredir=1
+referers=
+referer=1
+!
+
+/bin/cat >> /etc/apache2/apache2.conf <<!
+
+ProxyRequests on
+ProxyPass /webmin http://localhost:10000/
+ProxyPassReverse /webmin http://localhost:10000/
+
+!
+
+/usr/sbin/update-rc.d webmin enable
+
+:
