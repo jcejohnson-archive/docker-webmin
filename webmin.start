@@ -1,0 +1,5 @@
+#!/bin/bash
+
+/etc/init.d/webmin start
+
+/etc/init.d/apache2 start

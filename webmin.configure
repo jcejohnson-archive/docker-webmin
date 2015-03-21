@@ -18,14 +18,18 @@ referers=
 referer=1
 !
 
+# Diable SSL in Webmin's http server
+perl -p -i -e 's/ssl=1/ssl=0/' /etc/webmin/miniserv.conf
+
 /bin/cat >> /etc/apache2/apache2.conf <<!
 
 ProxyRequests on
-ProxyPass /webmin http://localhost:10000/
-ProxyPassReverse /webmin http://localhost:10000/
+ProxyPass /webmin/ http://localhost:10000/
+ProxyPassReverse /webmin/ http://localhost:10000/
 
 !
 
+/usr/sbin/a2enmod proxy proxy_http
 /usr/sbin/update-rc.d webmin enable
 
 :
