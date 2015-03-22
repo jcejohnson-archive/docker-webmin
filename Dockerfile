@@ -9,7 +9,7 @@ ADD webmin.configure /usr/local/bin/webmin.configure
 RUN chmod +x /usr/local/bin/webmin.configure && /usr/local/bin/webmin.configure
 
 # Install any other scripts
-ADD webmin.start /usr/local/bin/apache2.start.d/
-ADD webmin.stop /usr/local/bin/apache2.stop.d/
+ADD webmin.start    /usr/local/bin/apache2.start.d/
+ADD webmin.stop     /usr/local/bin/apache2.stop.d/
 
 ENTRYPOINT ["/usr/local/bin/apache2.start"]
