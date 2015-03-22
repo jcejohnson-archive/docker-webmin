@@ -1,0 +1,8 @@
+#!/bin/bash
+
+# Sample script for launching the webmin container
+
+rm -f /var/run/webmin
+mknod /var/run/webmin p
+docker rm webmin
+docker run -d -p 80:80 -v /var/run/webmin:/var/run/container-control --name webmin tragus/webmin

@@ -1,5 +1,7 @@
 #!/bin/bash
 
+export DEBIAN_FRONTEND=noninteractive
+
 echo deb http://download.webmin.com/download/repository sarge contrib >> /etc/apt/sources.list || exit 100
 echo deb http://webmin.mirror.somersettechsolutions.co.uk/repository sarge contrib >> /etc/apt/sources.list || exit 100
 
