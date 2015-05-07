@@ -2,7 +2,6 @@
 
 # Sample script for launching the webmin container
 
-rm -f /var/run/webmin-control
-mknod /var/run/webmin-control p
+docker kill webmin
 docker rm webmin
-docker run -d -p 80:80 -v /var/run/webmin-control:/var/run/container-control --name webmin tragus/webmin
+docker run -d -t -p 80:80 --name webmin tragus/webmin

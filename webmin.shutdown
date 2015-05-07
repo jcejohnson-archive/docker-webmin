@@ -1,8 +1,0 @@
-#!/bin/bash
-
-echo stop > /var/run/webmin-control
-sleep 5 # Wait for it...
-docker logs webmin
-docker rm webmin
-
-:
