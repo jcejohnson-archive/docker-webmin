@@ -2,13 +2,12 @@
 
 export DEBIAN_FRONTEND=noninteractive
 
-echo deb http://download.webmin.com/download/repository sarge contrib >> /etc/apt/sources.list || exit 100
-echo deb http://webmin.mirror.somersettechsolutions.co.uk/repository sarge contrib >> /etc/apt/sources.list || exit 100
-
 /bin/rm -f /etc/apt/apt.conf.d/docker-gzip-indexes
 
 /usr/bin/apt-get update && /usr/bin/apt-get -y install wget || exit 100
 
+echo deb http://download.webmin.com/download/repository sarge contrib >> /etc/apt/sources.list || exit 100
+echo deb http://webmin.mirror.somersettechsolutions.co.uk/repository sarge contrib >> /etc/apt/sources.list || exit 100
 (/usr/bin/wget -q http://www.webmin.com/jcameron-key.asc -O- | /usr/bin/apt-key add -) || exit 100
 
 /usr/bin/apt-get update && /usr/bin/apt-get -y --force-yes install webmin || exit 100
