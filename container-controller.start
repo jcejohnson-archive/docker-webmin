@@ -1,0 +1,43 @@
+#!/bin/bash
+
+# jcejohnson
+#
+# Modified from https://docs.docker.com/reference/builder/
+#
+# read was misbehaving with /bin/sh and my base is ubuntu so I'm using /bin/bash
+
+# 'docker stop' will stop a running container by sending SIGTERM and then SIGKILL
+# after a grace period.
+
+# When the script receives SIGTERM the read is interrupted and the script exits.
+# That doesn't let us do any cleanup. By trapping SIGTERM we can invoke the
+# _stop_services function. Traps are supposed to be quick so you shouldn't do too
+# much in your stop hooks.
+trap "_stop_services ; exit 0" HUP INT QUIT KILL TERM
+
+args="$@"
+
+function _start_services {
+  echo "Starting services"
+  for i in /usr/local/lib/container-controller/start/*
+  do
+    echo "...$i"
+    [ -x "$i" ] && $i "$@"
+  done
+}
+
+function _stop_services {
+  echo "Stopping services"
+  for i in /usr/local/lib/container-controller/stop/*
+  do
+    echo "...$i"
+    [ -x "$i" ] && $i $args
+  done
+}
+
+_start_services "$@"
+
+echo "Connect to Webmin using http://$(hostname -I | awk '{print $1}')/webmin/"
+echo "Log in with username: root and password: webmin"
+
+tail -f /dev/null
