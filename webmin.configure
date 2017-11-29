@@ -2,13 +2,12 @@
 
 export DEBIAN_FRONTEND=noninteractive
 
-echo deb http://download.webmin.com/download/repository sarge contrib >> /etc/apt/sources.list || exit 100
-echo deb http://webmin.mirror.somersettechsolutions.co.uk/repository sarge contrib >> /etc/apt/sources.list || exit 100
-
 /bin/rm -f /etc/apt/apt.conf.d/docker-gzip-indexes
 
 /usr/bin/apt-get update && /usr/bin/apt-get -y install wget || exit 100
 
+echo deb http://download.webmin.com/download/repository sarge contrib >> /etc/apt/sources.list || exit 100
+echo deb http://webmin.mirror.somersettechsolutions.co.uk/repository sarge contrib >> /etc/apt/sources.list || exit 100
 (/usr/bin/wget -q http://www.webmin.com/jcameron-key.asc -O- | /usr/bin/apt-key add -) || exit 100
 
 /usr/bin/apt-get update && /usr/bin/apt-get -y --force-yes install webmin || exit 100
@@ -33,5 +32,10 @@ ProxyPassReverse /webmin/ http://localhost:10000/
 
 /usr/sbin/a2enmod proxy proxy_http
 /usr/sbin/update-rc.d webmin enable
+
+echo export apache_ipaddress=0.0.0.0 >> /etc/apache2/envvars
+echo export apache_http=80 >> /etc/apache2/envvars
+echo export apache_https=443 >> /etc/apache2/envvars
+echo ServerName apache2.docker >> /etc/apache2/apache2.conf
 
 :
