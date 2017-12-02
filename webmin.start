@@ -1,5 +1,5 @@
 #!/bin/bash
 
-/etc/init.d/webmin start
+/usr/bin/service webmin start
 
 :
